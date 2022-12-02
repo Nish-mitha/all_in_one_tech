@@ -1,15 +1,14 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { insertUserObject } from "src/common/dto/user.dto";
-import { Account } from "./account.model";
 
 @Injectable()
 export class AccountService {
-    private accounts: Account[] = [];
+    private accounts: insertUserObject[] = [];
 
     addAccount(userData: insertUserObject) {
-            const newAccount = new Account(userData.firstName, userData.lastName, userData.gender, userData.dateOfBirth, userData.emailId)
-            this.accounts.push(newAccount);
-            return  "Addeds";
+            console.log(insertUserObject);
+            this.accounts.push(userData);
+            return  "User Added Successfully";
         }
 
     getAllAccount() {
@@ -47,7 +46,7 @@ export class AccountService {
         this.accounts.splice(index, 1);
     }
 
-    private findUser(emailId: string): [Account, number] {
+    private findUser(emailId: string): [insertUserObject, number] {
         const accountIndex = this.accounts.findIndex((user) => user.emailId === emailId);
         const account = this.accounts[accountIndex];
         if(!account) {
