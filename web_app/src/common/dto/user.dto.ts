@@ -1,4 +1,4 @@
-import { IsEmail, IsEnum, isEnum, isNotEmpty, IsNotEmpty, IsString, MaxLength } from "@nestjs/class-validator";
+import { IsEmail, IsEnum, isEnum, isNotEmpty, IsNotEmpty, IsOptional, IsString, MaxLength } from "@nestjs/class-validator";
 
 enum Gender {
     "Male", 
@@ -9,9 +9,7 @@ export class insertUserObject {
 
     @IsNotEmpty()
     @IsString()
-    @MaxLength(2, {
-        message: "Nmae",
-    })
+    @MaxLength(15)
     firstName: string;
 
     @IsNotEmpty()
@@ -26,6 +24,33 @@ export class insertUserObject {
     dateOfBirth: string;
 
     @IsNotEmpty()
+    @IsString()
+    @IsEmail()
+    emailId: string;
+
+}
+
+export class updateUserObject {
+
+    @IsOptional()
+    @IsString()
+    @MaxLength(15)
+    firstName: string;
+
+    @IsOptional()
+    @IsString()
+    lastName: string;
+
+    @IsOptional()
+    @IsString()
+    @IsEnum(Gender)
+    gender: string;
+
+    @IsString()
+    @IsOptional()
+    dateOfBirth: string;
+
+    @IsOptional()
     @IsString()
     @IsEmail()
     emailId: string;
