@@ -1,6 +1,6 @@
 import { Controller, Post, Body, Get, Param, Patch, Delete } from "@nestjs/common";
 import { AccountService } from "./account.service";
-import { insertUserObject } from "../common/dto/user.dto";
+import { insertUserObject, updateUserObject } from "../common/dto/user.dto";
 
 @Controller('account')
 export class AccountController {
@@ -22,8 +22,7 @@ export class AccountController {
     }
 
     @Patch(':emailId')
-    updateUser(@Body() userData: insertUserObject, @Param('emailId') emailId: string): any {
-            
+    updateUser(@Body() userData: updateUserObject, @Param('emailId') emailId: string): any {
         return this.accountService.updateUser(userData, emailId);
     }
 

@@ -1,12 +1,11 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
-import { insertUserObject } from "src/common/dto/user.dto";
+import { insertUserObject, updateUserObject } from "src/common/dto/user.dto";
 
 @Injectable()
 export class AccountService {
     private accounts: insertUserObject[] = [];
 
     addAccount(userData: insertUserObject) {
-            console.log(insertUserObject);
             this.accounts.push(userData);
             return  "User Added Successfully";
         }
@@ -20,24 +19,15 @@ export class AccountService {
         return { ...account };
     }
 
-    updateUser(userData: insertUserObject, emailId: string) {
+    updateUser(userData: updateUserObject, emailId: string) {
         const [account, index] = this.findUser(emailId);
-        const updatedAccount = { ...account };
-        if(userData.firstName) {
-            updatedAccount.firstName = userData.firstName;
-        }
-        if(userData.lastName) {
-            updatedAccount.lastName = userData.lastName;
-        }
-        if(userData.gender) {
-            updatedAccount.gender = userData.gender;
-        }
-        if(userData.dateOfBirth) {
-            updatedAccount.dateOfBirth = userData.dateOfBirth;
-        }
-        if(emailId) {
-            updatedAccount.emailId = emailId;
-        }
+        const updatedAccount = { 
+            ...(userData.firstName !== account.firstName && { firstName: userData.firstName}),
+            ...(userData.lastName !== account.lastName && { lastName: userData.lastName}),
+            ...(userData.gender !== account.gender && { gender: userData.gender}),
+            ...(userData.dateOfBirth !== account.dateOfBirth && { dateOfBirth: userData.dateOfBirth}),
+            ...(userData.emailId !== account.emailId && { emailId: userData.emailId}),
+        };
         this.accounts[index] = updatedAccount;
     }
 
