@@ -22,12 +22,13 @@ export class AccountService {
     updateUser(userData: updateUserObject, emailId: string) {
         const [account, index] = this.findUser(emailId);
         const updatedAccount = { 
-            ...(userData.firstName !== account.firstName && { firstName: userData.firstName}),
-            ...(userData.lastName !== account.lastName && { lastName: userData.lastName}),
-            ...(userData.gender !== account.gender && { gender: userData.gender}),
-            ...(userData.dateOfBirth !== account.dateOfBirth && { dateOfBirth: userData.dateOfBirth}),
-            ...(userData.emailId !== account.emailId && { emailId: userData.emailId}),
-        };
+            ...account,
+            firstName: userData.firstName ? userData.firstName : account.firstName,
+            lastName: userData.lastName ? userData.lastName : account.lastName,
+            gender: userData.gender ? userData.gender : account.gender,
+            dateOfBirth: userData.dateOfBirth ? userData.dateOfBirth : account.dateOfBirth,
+            emailId: userData.emailId ? userData.emailId : account.emailId
+        }
         this.accounts[index] = updatedAccount;
     }
 
