@@ -5,36 +5,31 @@ import { insertUserObject, updateUserObject } from "src/common/dto/user.dto";
 export class AccountService {
     private accounts: insertUserObject[] = [];
 
-    addAccount(userData: insertUserObject) {
+    addAccount(userData: insertUserObject): string {
             this.accounts.push(userData);
             return  "User Added Successfully";
         }
 
-    getAllAccount() {
+    getAllAccount(): insertUserObject[] {
         return [...this.accounts];
     }
 
-    getSingleAccount(emailId: string) {
+    getSingleAccount(emailId: string): insertUserObject {
         const account = this.findUser(emailId)[0];
         return { ...account };
     }
 
-    updateUser(userData: updateUserObject, emailId: string) {
+    updateUser(userData: Partial<updateUserObject>, emailId: string): string {
         const [account, index] = this.findUser(emailId);
-        const updatedAccount = { 
-            ...account,
-            firstName: userData.firstName ? userData.firstName : account.firstName,
-            lastName: userData.lastName ? userData.lastName : account.lastName,
-            gender: userData.gender ? userData.gender : account.gender,
-            dateOfBirth: userData.dateOfBirth ? userData.dateOfBirth : account.dateOfBirth,
-            emailId: userData.emailId ? userData.emailId : account.emailId
-        }
+        const updatedAccount = { ...account, ...userData }
         this.accounts[index] = updatedAccount;
+        return  "Updated Successfully";
     }
 
-    deleteAccount(emaildId: string) {
+    deleteAccount(emaildId: string): string {
         const index = this.findUser(emaildId)[1];
         this.accounts.splice(index, 1);
+        return  "Deleted Successfully";
     }
 
     private findUser(emailId: string): [insertUserObject, number] {
